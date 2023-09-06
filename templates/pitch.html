@@ -1,0 +1,14 @@
+<!-- pitch.html -->
+{% extends 'base_pitch.html' %}
+{% block content %}
+    <div class="pitch-details">
+        <img src="{{ url_for('static', filename='images/' + pitch_data['image']) }}" alt="Pitch Image">
+        <div class="pitch-info">
+            <h3 class="pitch-name">{{ pitch_data['name'] }}</h3>
+            <p class="pitch-location">{{ pitch_data['address'] }}</p>
+        </div>
+        <p class="pitch-price">Cena: {{ pitch_data['price'] }} RSD</p>
+        <!-- Additional dynamic content specific to individual pitch -->
+        <!-- You can display schedule, book now button, etc. here -->
+    </div>
+{% endblock %}
