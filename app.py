@@ -4,24 +4,17 @@ from flask_login import login_user, login_required, logout_user, current_user
 import psycopg2   
 from flask_sqlalchemy import SQLAlchemy
 import os
+from fajlovi import models
 
-db = SQLAlchemy()
 DB_NAME = 'vezbam.db'
+db = SQLAlchemy()
 
 app = Flask(__name__)
-
 app.secret_key = "beb9f203b24e3db2a29ca4a434073928433e5ab3bdbefdd9a26199c741799ed1"
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:zuzuna02@localhost/{DB_NAME}'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:zuzuna02@localhost:5432/vezbam'
+
 db.init_app(app)
 
-# def create_database(app):
-#     if not os.path.exists('website/' + DB_NAME):
-#         with app.app_context():
-#             db.create_all()
-#         print('Created Database!')
-
-# Call the create_database function before running the app
-# create_database(app)
 
 @app.route('/', methods=['POST','GET'])
 def home():
@@ -51,26 +44,38 @@ def login():
         user_email = request.form['email']
         user_password = request.form['password']
 
-        conn = psycopg2.connect(
-            host='localhost',
-            user='postgres',
-            password='zuzuna02',
-            database='vezbam'
-        )
-        cur = conn.cursor()
-
-        # Fetch the user's data from the database based on the email
-        cur.execute("SELECT email, password_hash FROM users WHERE email = %s", (user_email,))
-        user_data = cur.fetchone()
-
-        if user_data and check_password_hash(user_data[1], user_password):
-            flash(f"Logged in successfully as {user_email}", category='success')
-            conn.close()
-            return redirect(url_for('home'))
+        user = models.User.query.filter_by(email=user_email).first()
+        if user:
+            if check_password_hash(user.password_hash, user_password):
+                flash("Logged in successfully!")
+                return redirect(url_for('home'))
+            else:
+                flash("Incorrect password, please try again.")
+                #return redirect(url_for('login'))
         else:
-            flash("Incorrect email or password. Please try again.", category='error')
-            conn.close()
-            return redirect(url_for('login'))
+            flash('Email does not exist.')
+
+    return render_template('login.html')
+        # conn = psycopg2.connect(
+        #     host='localhost',
+        #     user='postgres',
+        #     password='zuzuna02',
+        #     database='vezbam'
+        # )
+        # cur = conn.cursor()
+
+        # # Fetch the user's data from the database based on the email
+        # cur.execute("SELECT email, password_hash FROM users WHERE email = %s", (user_email,))
+        # user_data = cur.fetchone()
+
+        # if user_data and check_password_hash(user_data[1], user_password):
+        #     flash(f"Logged in successfully as {user_email}", category='success')
+        #     conn.close()
+        #     return redirect(url_for('home'))
+        # else:
+        #     flash("Incorrect email or password. Please try again.", category='error')
+        #     conn.close()
+        #     return redirect(url_for('login'))
 
     return render_template('login.html')
 
@@ -85,33 +90,19 @@ def signup():
         user_password = request.form['password']
         user_confirm_password = request.form['confirm_password']
 
-        conn = psycopg2.connect(
-            host='localhost',
-            user='postgres',
-            password='zuzuna02',
-            database='vezbam'
-        )
-        cur = conn.cursor()
-
-        cur.execute("SELECT email FROM users")
-        rows = cur.fetchall()
-        password = generate_password_hash(user_password, method='sha256')
-        for row in rows:
-            if user_email == row[0]:
-                flash("Email is already taken. Please choose another email.", category='error')
-                return redirect(url_for('signup'))
-            
-        # If no duplicate email found, proceed to insert
-        cur.execute("INSERT INTO users (email, username, password_hash)"
-                    "VALUES (%s, %s, %s)",(user_email, user_username, password))
-        conn.commit()
-        flash("Account created successfully! You can now log in.",category='success')
-
-        cur.close()
-        conn.close()
-
-        return redirect(url_for('login'))
-
+        if len(user_email) < 5:
+            flash('Email must be greater than 4 characters.')
+        elif len(user_username) < 2:
+            flash('Username must be greater than 1 characters.')
+        elif user_password != user_confirm_password:
+            flash('Passwords don\'t match.')
+        else:
+            new_user = models.User(email=user_email, username=user_username, password_hash=generate_password_hash(user_password,method='sha256'))
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created!')
+            return redirect(url_for('login'))
+    
     return render_template('signup.html')
 
 # TERENI
@@ -159,4 +150,6 @@ def classics():
 
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
