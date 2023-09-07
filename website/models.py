@@ -1,6 +1,5 @@
-from app import db
 from flask_login import UserMixin
-
+from website import db
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -9,6 +8,9 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+
+    def get_id(self):
+        return str(self.user_id)
 
 class Pitch(db.Model):
     __tablename__ = 'pitches'
