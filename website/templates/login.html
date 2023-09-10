@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <h1>Login</h1>
-    <form method="POST">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Login</button>
+    <form method="POST" class="form">
+        <span class="input-span">
+        <label for="email" class="label">Email</label>
+        <input type="email" name="email" id="email" required></span>
+
+        <span class="input-span">
+        <label for="password" class="label">Password</label>
+        <input type="password" name="password" id="password" required></span>
+        
+        <span class="span"><a href="#">Forgot password?</a></span>
+        <input class="submit" type="submit" value="Log in">
+        
+        <span class="span">Don't have an account? <a href="{{url_for('auth.signup')}}">Sign Up</a></span>
     </form>
-    <p>Don't have an account? <a href="{{url_for('auth.signup')}}">Sign Up</a></p>
 
 {% endblock %}

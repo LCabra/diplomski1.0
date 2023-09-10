@@ -1,14 +1,21 @@
 <!-- pitch.html -->
-{% extends 'base_pitch.html' %}
+{% extends 'base.html' %}
+{% block additional_css %}
+    <!-- Include CSS specific to the pitch page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pitch_styles.css') }}">
+{% endblock %}
 {% block content %}
+<!-- pitch.html -->
+<div class="pitch-container">
     <div class="pitch-details">
-        <img src="{{ url_for('static', filename='images/' + pitch_data['image']) }}" alt="Pitch Image">
+        <img src="{{ url_for('static', filename='images/' + pitch_data['image']) }}" alt="Pitch Image" class="pitch-image">
         <div class="pitch-info">
-            <h3 class="pitch-name">{{ pitch_data['name'] }}</h3>
+            <h1 class="pitch-name">{{ pitch_data['name'] }}</h1>
             <p class="pitch-location">{{ pitch_data['address'] }}</p>
+            <p class="pitch-price">Cena: {{ pitch_data['price'] }} RSD</p>
         </div>
-        <p class="pitch-price">Cena: {{ pitch_data['price'] }} RSD</p>
-        <!-- Additional dynamic content specific to individual pitch -->
-        <!-- You can display schedule, book now button, etc. here -->
     </div>
+    <a href="#" class="view-button">Book Now</a>
+</div>
+
 {% endblock %}

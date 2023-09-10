@@ -7,13 +7,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-    crossorigin="anonymous"> -->
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <!-- Add your CSS and other dependencies here -->
+    {% block additional_css %}{% endblock %}
 </head>
 <body>
     <div class="navbar">
@@ -28,6 +23,7 @@
         <div class="dropdown-content">
           <a href="#yourmatch">Your Match</a>
           <a href="{{url_for('auth.logout')}}">Logout</a>
+          <a href="#">{{ user.email }}</a>
         </div>
       </div>
       {% else %}

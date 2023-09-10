@@ -1,25 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Sign Up</h1>
-    <form method="POST">
-        <p>        
-            Email:
-            <input type="email" name="email">
-        </p>
-        <p>        
-            Username:
-            <input type="text" name="username">
-        </p>
-        <p>        
-            Password:
-            <input type="text" name="password">
-        </p>
-        <p>        
-            Confirm password:
-            <input type="text" name="confirm_password">
-        </p>
-        <button type="submit">Confirm</button>
+    <form method="POST" class="form">
+        <span class="input-span">
+        <label for="email" class="label">Email</label>
+        <input type="email" name="email" id="email" required></span>
+
+        <span class="input-span">
+        <label for="username" class="label">Username</label>
+        <input type="username" name="username" id="username" required></span>
+
+        <span class="input-span">
+        <label for="password" class="label">Password</label>
+        <input type="password" name="password" id="password" required></span>
+
+        <span class="input-span">
+        <label for="confirm_password" class="label">Confirm password</label>
+        <input type="password" name="confirm_password" id="confirm_password" required></span>
+        <span class="span">Already have an account? <a href="{{url_for('auth.login')}}">Log In</a></span>
+        <input class="submit" type="submit" value="Confirm">
+
     </form>
-    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Log In</a></p>
 {% endblock %}
