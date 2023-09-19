@@ -21,31 +21,12 @@ def login():
                 return redirect(url_for('views.home'))
             else:
                 flash("Incorrect password, please try again.")
-                #return redirect(url_for('login'))
+                
         else:
             flash('Email does not exist.')
 
     return render_template('login.html', user=current_user)
-        # conn = psycopg2.connect(
-        #     host='localhost',
-        #     user='postgres',
-        #     password='zuzuna02',
-        #     database='vezbam'
-        # )
-        # cur = conn.cursor()
 
-        # # Fetch the user's data from the database based on the email
-        # cur.execute("SELECT email, password_hash FROM users WHERE email = %s", (user_email,))
-        # user_data = cur.fetchone()
-
-        # if user_data and check_password_hash(user_data[1], user_password):
-        #     flash(f"Logged in successfully as {user_email}", category='success')
-        #     conn.close()
-        #     return redirect(url_for('home'))
-        # else:
-        #     flash("Incorrect email or password. Please try again.", category='error')
-        #     conn.close()
-        #     return redirect(url_for('login'))
 
 @auth.route('/logout')
 @login_required

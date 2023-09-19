@@ -1,4 +1,3 @@
-<!-- pitch.html -->
 {% extends 'base.html' %}
 {% block additional_css %}
     <!-- Include CSS specific to the pitch page -->
@@ -8,14 +7,46 @@
 <!-- pitch.html -->
 <div class="pitch-container">
     <div class="pitch-details">
-        <img src="{{ url_for('static', filename='images/' + pitch_data['image']) }}" alt="Pitch Image" class="pitch-image">
+        <img src="{{ url_for('static', filename='images/' + pitch_data['image']) }}" alt="Pitch Image" class="pitch-image" width="100%">
         <div class="pitch-info">
             <h1 class="pitch-name">{{ pitch_data['name'] }}</h1>
             <p class="pitch-location">{{ pitch_data['address'] }}</p>
             <p class="pitch-price">Cena: {{ pitch_data['price'] }} RSD</p>
         </div>
     </div>
-    <a href="#" class="view-button">Book Now</a>
-</div>
+    <table width="500" height="300">
+        <tr>
+            <th>MATCH ID</th>
+            <th>PITCH ID</th>
+            <th>DATE</th>
+            <th>TIME</th>
+            <th>MAX PLAYERS</th>
+            <th>JOIN NOW</th>
+        </tr>
+        {% for row in table %}
+        {% if row[0] == pitch_data['pitch_id'] %}
+        <tr>
+            <td>{{ row[1] }}</td> <!-- MATCH ID  -->
+            <td>{{ row[0] }}</td> <!-- PITCH ID  -->
+            <td>{{ row[3] }}</td> <!-- DATE  -->
+            <td>{{ row[2] }}</td><!-- TIME -->
+            <td>{{ row[6] }}/{{ row[4] }}</td><!-- CURR/MAX -->
+            <td>
+                {% if row[4] == row[6] %}
+                    FULL
+                {% else %}
+                    <div class="forma">
+                        <form action="{{ url_for('views.join_match', match_id=row[1]) }}" method="post" background-color="">
+                            <button type="submit" class="button-3" role="button">JOIN NOW</button>
+                        </form>
+                    </div>
 
+                {% endif %}
+            </td>
+            
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

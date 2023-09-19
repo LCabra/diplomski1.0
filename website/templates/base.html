@@ -21,7 +21,7 @@
           <i class="fa-regular fa-user"></i>
         </button>
         <div class="dropdown-content">
-          <a href="#yourmatch">Your Match</a>
+          <a href="{{url_for('views.your_matches')}}">Your Match</a>
           <a href="{{url_for('auth.logout')}}">Logout</a>
           <a href="#">{{ user.email }}</a>
         </div>

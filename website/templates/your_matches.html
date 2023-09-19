@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Your Matches{% endblock %}
+{% block content %}
+<div class="matches-container">
+    <h1>Your Matches</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Pitch</th>
+                <th>Current Players</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in user_matches %}
+            <tr>
+                <td>{{ match.date }}</td>
+                <td>{{ match.time }}</td>
+                <td>{{ match.pitch.name }}</td>
+                <td>{{ ', '.join(match.current_players) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
