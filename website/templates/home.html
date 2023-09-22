@@ -2,18 +2,18 @@
 {% block title %}MatchApp{% endblock %}
 {% block content %}
 
-    <div class="centered-container">
-        <div class="pitch-container">
+    <div class="home-centered-container">
+        <div class="home-pitch-container">
             {%for pitch in pitch_list%}
-            <div class="pitch-item">
+            <div class="home-pitch-item">
                 <img src="{{ url_for('static', filename='images/' + pitch[5]) }}" alt="Pitch Image">
-                <div class="pitch-details">
-                    <div class="pitch-info">
-                        <h3 class="pitch-name">{{pitch[1]}}</h3>
-                        <p class="pitch-location">{{pitch[2]}}</p>
+                <div class="home-pitch-details">
+                    <div class="home-pitch-info">
+                        <h3 class="home-pitch-name">{{pitch[1]}}</h3>
+                        <p class="home-pitch-location">{{pitch[2]}}</p>
                     </div>
-                    <p class="pitch-price">Cena: {{pitch[3]}} RSD</p>
-                    <a href="{{ url_for('views.pitch', pitch_name=pitch[1]) }}" class="view-button">View</a>
+                    <p class="home-pitch-price">Cena: {{pitch[3]}} RSD</p>
+                    <a href="{{ url_for('views.pitch', pitch_name=pitch[1]) }}" class="home-view-button">View</a>
                 </div>
             </div>
             {% endfor %}

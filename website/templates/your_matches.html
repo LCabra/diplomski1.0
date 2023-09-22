@@ -1,27 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}Your Matches{% endblock %}
+{% block additional_css %}
+    <!-- Include CSS specific to the pitch page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pitch_styles.css') }}">
+{% endblock %}
 {% block content %}
-<div class="matches-container">
-    <h1>Your Matches</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Pitch</th>
-                <th>Current Players</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for match in user_matches %}
-            <tr>
-                <td>{{ match.date }}</td>
-                <td>{{ match.time }}</td>
-                <td>{{ match.pitch.name }}</td>
-                <td>{{ ', '.join(match.current_players) }}</td>
-            </tr>
+<div class="centered-container">
+    <div class="pitch-container">
+            <h1>Your Matches</h1>
+            {%for row in table%}
+                <div class="pitch-item">
+                    <div class="pitch-image-container">
+                        <img src="{{ url_for('static', filename='images/' + row[6]) }}" alt="Pitch Image">
+                    </div>
+                    <div class="pitch-details">
+                            <h3 class="pitch-name">{{row[2]}}</h3>
+                            <p class="pitch-location">{{row[7]}}</p>
+                        <p class="pitch-price">Time: {{row[3]}}</p>
+                        <p class="pitch-price">Date: {{row[4]}}</p>
+                    </div>
+                    <div class="pitch-buttons">
+                        <a href="" class="lock-in-btn button-3">Lock in</a>
+                        <br>
+                        <form action="{{ url_for('views.leave_match', match_id=row[0]) }}" method="post" class="forma">
+                            <button type="submit" class="leave-btn button-3">Leave</button>
+                        </form>
+                    </div>
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
+
+            <!-- Repeat similar pitch-item divs for other pitches -->
+        </div>
+    </div>
 {% endblock %}

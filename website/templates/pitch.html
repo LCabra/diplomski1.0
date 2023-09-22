@@ -36,7 +36,7 @@
                     FULL
                 {% else %}
                     <div class="forma">
-                        <form action="{{ url_for('views.join_match', match_id=row[1]) }}" method="post" background-color="">
+                        <form action="{{ url_for('views.join_match', match_id=row[1]) }}" method="post">
                             <button type="submit" class="button-3" role="button">JOIN NOW</button>
                         </form>
                     </div>

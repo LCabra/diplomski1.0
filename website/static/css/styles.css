@@ -72,7 +72,7 @@ ul {
 /* ---------------------------------------------------- */
 
 /* Style for the centered div */
-.centered-container {
+.home-centered-container {
     display: flex;
     justify-content: center;
     margin: 0 20%;
@@ -80,7 +80,7 @@ ul {
 }
 
 /* Style for the pitch container */
-.pitch-container {
+.home-pitch-container {
     display: flex;
     flex-direction: column;
     /* Stack containers one below the other */
@@ -94,7 +94,7 @@ ul {
 /* Your existing styles */
 
 /* Style for the pitch item */
-.pitch-item {
+.home-pitch-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -111,12 +111,12 @@ ul {
     transition: transform 0.3s ease;
 }
 
-.pitch-item:hover {
+.home-pitch-item:hover {
     transform: scale(1.05);
     /* Slight scale on hover */
 }
 
-.pitch-item img {
+.home-pitch-item img {
     width: 100%;
     /* Adjusted image width */
     max-height: 120px;
@@ -127,7 +127,7 @@ ul {
     /* Add space between image and pitch details */
 }
 
-.pitch-details {
+.home-pitch-details {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -136,30 +136,30 @@ ul {
     /* Add space between image and pitch details */
 }
 
-.pitch-price {
+.home-pitch-price {
     font-size: 18px;
     margin-bottom: 10px;
 }
 
-.pitch-info {
+.home-pitch-info {
     flex-grow: 1;
     /* Expand to fill available space */
     margin-right: 20px;
     /* Add spacing between elements */
 }
 
-.pitch-name {
+.home-pitch-name {
     font-size: 18px;
     margin-bottom: 5px;
 }
 
-.pitch-location {
+.home-pitch-location {
     font-size: 14px;
     color: #888;
     margin-bottom: 5px;
 }
 
-.view-button {
+.home-view-button {
     padding: 8px 16px;
     background-color: #00A651;
     color: white;
@@ -172,13 +172,13 @@ ul {
     /* Smooth transition for hover effect */
 }
 
-.view-button:hover {
+.home-view-button:hover {
     background-color: #007E3E;
     /* Darker green on hover */
 }
 
 /* Add this new rule for the hover effect */
-.pitch-item:hover img {
+.home-pitch-item:hover img {
     transform: scale(1.0);
     transition: transform 0.3s ease;
 }
@@ -227,7 +227,7 @@ ul {
 }
 
 /* --------------LOGIN------------------------ */
-form {
+.home-form {
     --bg-light: #efefef;
     --bg-dark: #707070;
     --clr-alpha: #9c9c9c60;
@@ -245,16 +245,16 @@ form {
     color: #FF0000;
 }
 
-.form .input-span {
+.home-form .input-span {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: .5rem;
 }
 
-form input[type="email"],
-form input[type="username"],
-form input[type="password"] {
+.home-form input[type="email"],
+.home-form input[type="username"],
+.home-form input[type="password"] {
     border-radius: 0.5rem;
     padding: 1rem 0.75rem;
     width: 100%;
@@ -268,9 +268,9 @@ form input[type="password"] {
     /* Set the text color to white */
 }
 
-form input[type="email"]:focus,
-form input[type="password"]:focus
-form input[type="username"]:focus {
+.home-form input[type="email"]:focus,
+.home-forminput[type="password"]:focus
+.home-forminput[type="username"]:focus {
     outline: 2px solid var(--clr);
 }
 
@@ -280,7 +280,7 @@ form input[type="username"]:focus {
     font-weight: 600;
 }
 
-form .submit {
+.home-form .submit {
     padding: 1rem 0.75rem;
     width: 100%;
     display: flex;
@@ -298,7 +298,7 @@ form .submit {
     font-size: .9rem;
 }
 
-form .submit:hover {
+.home-form .submit:hover {
     background-color: var(--clr);
     color: var(--bg-dark);
 }

@@ -141,22 +141,68 @@ def join_match(match_id):
     return redirect(url_for('views.home'))
 
 
-
-def array_contains(column, item):
-    return func.array_contains(column, item)
-
-def get_user_matches(user):
-    return models.Match.query.filter(models.Match.current_players.contains([user.username])).all()
-
 # Create a route to display the user's matches
-@views.route('/your-matches')
+@views.route('/your-matches', methods=['POST','GET'])
 @login_required
 def your_matches():
-    user = current_user
+    if request.method == 'POST':
+        pass
 
-    # Get the user's matches
-    user_matches = get_user_matches(user)
+    conn = psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='zuzuna02',
+        database='vezbam'
+    )
 
-    return render_template('your_matches.html', user=user, user_matches=user_matches)
+    cur = conn.cursor()
+    cur.execute("SELECT matches.match_id, pitches.pitch_id, pitches.name, matches.time, matches.date, matches.current_players, pitches.image, pitches.address FROM matches JOIN pitches ON matches.pitch_id=pitches.pitch_id WHERE %s IN (SELECT UNNEST(current_players)) ORDER BY matches.time ",(current_user.username,))
+    table = cur.fetchall()
+    conn.close()
 
-    
+    return render_template('your_matches.html', user=current_user, table=table)
+
+
+@views.route('/leave-match/<int:match_id>', methods=['POST'])
+@login_required
+def leave_match(match_id):
+    # Fetch the match from the database
+    match = models.Match.query.get(match_id)
+
+    if match:
+        # Check if the user is in the match's current players list
+        if current_user.username in match.current_players:
+            try:
+                # Create a PostgreSQL connection
+                conn = psycopg2.connect(
+                    host='localhost',
+                    user='postgres',
+                    password='zuzuna02',
+                    database='vezbam'
+                )
+                cur = conn.cursor()
+
+                # Execute SQL to remove the user from the current_players array
+                cur.execute("""
+                    UPDATE matches
+                    SET current_players = array_remove(current_players, %s)
+                    WHERE match_id = %s;
+                """, (current_user.username, match_id))
+
+                # Commit the transaction
+                conn.commit()
+
+                flash('You have left the match successfully!', 'success')
+            except Exception as e:
+                flash(f'An error occurred: {str(e)}', 'error')
+            finally:
+                # Close the cursor and the database connection
+                cur.close()
+                conn.close()
+        else:
+            flash('You are not in this match.', 'warning')
+    else:
+        flash('Match not found.', 'error')
+
+    # Redirect the user back to their matches page
+    return redirect(url_for('views.your_matches'))
